@@ -1,13 +1,8 @@
 NAME=ProductClient
 
-GEM=rbenv exec gem
-BUNDLE=rbenv exec bundle
-POD=rbenv exec pod
-FASTLANE=rbenv exec bundle exec fastlane
+FASTLANE=bundle exec fastlane
 
 DC=docker-compose
-
-POD_OPTIONS=--verbose --allow-warnings
 
 stop:
 	$(DC) stop
@@ -17,8 +12,11 @@ stop:
 clean: stop
 
 install:
-	$(BUNDLE) install
-	$(POD) install
+	bundle install
+	pod install
+
+lint:
+	$(FASTLANE) lint
 
 test_local: stop
 	$(DC) up -d
@@ -27,21 +25,7 @@ test_local: stop
 test:
 	$(FASTLANE) test
 
-lint:
-	$(FASTLANE) lint
-
 contract_tests: stop
 	$(DC) up -d
 	$(FASTLANE) contract_tests
-
-publish_contract:
-	$(DC) run pactbroker-client
-
-lint_podspec_local:
-	$(POD) lib lint $(POD_OPTIONS) $(NAME).podspec
-
-lint_podspec:
-	$(POD) spec lint $(POD_OPTIONS) $(NAME).podspec
-
-push:
-	$(POD) repo push $(POD_OPTIONS) $(NAME).podspec
+	$(DC) stop

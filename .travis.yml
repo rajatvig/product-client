@@ -1,0 +1,14 @@
+sudo: required
+language: objective-c
+osx_image: xcode7.3
+
+services:
+  - docker
+
+before_install:
+- make install
+
+script:
+- make lint
+- make test
+- make contract_tests
