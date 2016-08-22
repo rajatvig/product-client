@@ -1,15 +1,12 @@
-sudo: required
 language: objective-c
 osx_image: xcode7.3
-
-services:
-  - docker
+cache:
+  - bundler
+  - cocoapods
 
 before_install:
-- pod repo update master
 - make install
 
 script:
 - make lint
 - make test
-- make contract_tests
