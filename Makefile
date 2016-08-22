@@ -1,6 +1,8 @@
 NAME=ProductClient
 
-FASTLANE=bundle exec fastlane
+RBENV=rbenv exec
+BUNDLE=bundle exec
+FASTLANE=$(BUNDLE) fastlane
 
 DC=docker-compose
 
@@ -12,8 +14,8 @@ stop:
 clean: stop
 
 install:
-	bundle install
-	pod install
+	$(RBENV) $(BUNDLE) install
+	$(RBENV) $(BUNDLE) pod install
 
 lint:
 	$(FASTLANE) lint
